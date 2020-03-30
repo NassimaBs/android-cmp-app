@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
             mainViewGroup.removeView(view);
     }
 
-
     private GDPRConsentLib buildGDPRConsentLib() {
         return GDPRConsentLib.newBuilder(839, "sandbox-fr.vinted.net", 6711,"5ddbd4b29c8dd3248591d91c",this)
                 .setOnConsentUIReady(view -> {
