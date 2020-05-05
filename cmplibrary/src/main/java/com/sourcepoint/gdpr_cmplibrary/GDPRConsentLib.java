@@ -254,8 +254,10 @@ public class GDPRConsentLib {
     }
 
     private void loadConsentUI(String url){
-        if(webView == null) webView = buildWebView();
-        runOnLiveActivityUIThread(() -> webView.loadConsentUIFromUrl(url));
+        runOnLiveActivityUIThread(() -> {
+            if(webView == null) webView = buildWebView();
+            webView.loadConsentUIFromUrl(url);
+        });
     }
 
     /**
@@ -293,7 +295,7 @@ public class GDPRConsentLib {
             @Override
             public void onSuccess(Object result) {
                 try{
-                    JSONObject jsonResult = (JSONObject) result;
+                    JSONObject jsonResult = new JSONObject((String) result);
                     consentUUID = jsonResult.getString("uuid");
                     metaData = jsonResult.getString("meta");
                     userConsent = new GDPRUserConsent(jsonResult.getJSONObject("userConsent"), consentUUID);
@@ -302,13 +304,8 @@ public class GDPRConsentLib {
                         setNativeMessageView(jsonResult.getJSONObject("msgJSON"));
                         showView(nativeView);
                     } else if(jsonResult.has("url") && !jsonResult.isNull("url")){
-                        String messageUrl = jsonResult.getString("url");
-                        runOnLiveActivityUIThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                loadConsentUI(messageUrl);
-                            }
-                        });
+                        String url = jsonResult.getString("url");
+                        loadConsentUI(url);
                     } else {
                         consentFinished();
                     }
@@ -376,7 +373,7 @@ public class GDPRConsentLib {
                 @Override
                 public void onSuccess(Object result) {
                     try{
-                        JSONObject jsonResult = (JSONObject) result;
+                        JSONObject jsonResult = new JSONObject((String) result);
                         JSONObject jsonUserConsent = jsonResult.getJSONObject("userConsent");
                         euConsent = jsonUserConsent.getString("euconsent");
                         consentUUID = jsonResult.getString("uuid");
