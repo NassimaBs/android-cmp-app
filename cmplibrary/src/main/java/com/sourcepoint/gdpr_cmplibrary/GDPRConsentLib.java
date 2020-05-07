@@ -254,10 +254,8 @@ public class GDPRConsentLib {
     }
 
     private void loadConsentUI(String url){
-        runOnLiveActivityUIThread(() -> {
-            if(webView == null) webView = buildWebView();
-            webView.loadConsentUIFromUrl(url);
-        });
+        if(webView == null) webView = buildWebView();
+        runOnLiveActivityUIThread(() -> webView.loadConsentUIFromUrl(url));
     }
 
     /**
@@ -304,8 +302,7 @@ public class GDPRConsentLib {
                         setNativeMessageView(jsonResult.getJSONObject("msgJSON"));
                         showView(nativeView);
                     } else if(jsonResult.has("url") && !jsonResult.isNull("url")){
-                        String url = jsonResult.getString("url");
-                        loadConsentUI(url);
+                        loadConsentUI(jsonResult.getString("url"));
                     } else {
                         consentFinished();
                     }
