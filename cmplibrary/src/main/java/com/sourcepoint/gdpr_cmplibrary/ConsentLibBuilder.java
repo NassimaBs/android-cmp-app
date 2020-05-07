@@ -18,8 +18,6 @@ public class ConsentLibBuilder {
     public  static final long DEFAULT_MESSAGE_TIMEOUT = 10000;
 
     Activity activity;
-    int accountId, propertyId ;
-    String property;
     protected GDPRConsentLib.OnConsentUIReadyCallback onConsentUIReady;
     protected GDPRConsentLib.OnConsentUIFinishedCallback onConsentUIFinished;
     protected GDPRConsentLib.OnConsentReadyCallback onConsentReady;
@@ -30,7 +28,6 @@ public class ConsentLibBuilder {
 
     String targetingParamsString = null;
     String authId = null;
-    String pmId = "";
     GDPRConsentLib.DebugLevel debugLevel = GDPRConsentLib.DebugLevel.OFF;
     long messageTimeOut;
 
